@@ -6,13 +6,13 @@ As I learned about data science and machine learning I wanted a project that wou
 
 
   
-#Data ingestion & cleaning:
-## How It’s Made
+
+# How It’s Made
 
 **Tech used:** Python, Jupyter Notebook  
-# Jupyter notebook:
+### Jupyter notebook:
 - Used for trouble-shooting and debugging
-# Python:
+### Python:
 - Everything else
   
 - **Data ingestion & cleaning**  
