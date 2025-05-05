@@ -37,13 +37,14 @@ Sample output predicting a matchup between the LA Lakers and Boston Celtics:
     - Trains the model.  
     - Prints out the home‐team win probability via `predict_win_probability()`.
 # Lessons Learned
-Feature engineering matters: isolating the right set of statistics and computing head-to-head differentials proved far more effective than raw per-team averages, finding an **effective** dataset made this a lot easier and streamlined my collection process. Next time I would spend more time in the preliminary phase. Potentially learn how to scrape data myself. 
-Data hygiene is critical: handling quirks in team naming (trailing “*” characters) and missing values taught me to build robust preprocessing steps first and to reduce the confusion of variable names.
-Model evaluation workflow: splitting data, training, predicting, and computing accuracy reinforced best practices in building ML pipelines end to end.
-Performance tuning: seeing how small refactors in pandas can yield big speedups inspired me to always profile data-processing code before scaling up
-Spending more time brainstorming before diving into a project can be very helpful and would have saved me a lot of time scrambling around looking for a dataset
+1. Feature engineering matters: isolating the right set of statistics and computing head-to-head differentials proved far more effective than raw per-team averages, finding an **effective** dataset made this a lot easier and streamlined my collection process. Next time I would spend more time in the preliminary phase. Learning how to scrape data myself would have helped immensely. 
+2. Data hygiene is critical: handling quirks in team naming (trailing “*” characters) and missing values taught me to build robust preprocessing steps first and to reduce the confusion of variable names.
+3. Model evaluation workflow: splitting data, training, predicting, and computing accuracy reinforced best practices in building ML pipelines end to end.
+4. Performance tuning: seeing how small refactors in pandas can yield big speedups inspired me to always profile data-processing code before scaling up
+5. Spending more time brainstorming before diving into a project can be very helpful and would have saved me a lot of time scrambling around looking for a dataset
 
 # What I'm Still Working On
-Implemting seaborn and matplotlib to graph out heatmaps and highlight the correlation between specific varaibles allowing me to fine-tune features
-Expanding to other machine learning models that may be more applicable to predicting sports games as there are many hidden variables
-Expanding and combining mutiple datasets to improve features
+- Implemting seaborn and matplotlib to graph out heatmaps and highlight the correlation between specific varaibles allowing me to fine-tune features
+- Expanding to other machine learning models that may be more applicable to predicting sports games as there are many hidden variables
+- Expanding and combining mutiple datasets to improve features
+- Improving the organization and readability of my code
