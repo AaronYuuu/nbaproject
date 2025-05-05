@@ -22,7 +22,7 @@ def get_stats(df, home, away):
 #difference between key stats between the two teams 
 def compute_differential_features(home_stats, opp_stats):
     # Only want these
-    columns = ['FGA', 'FG%', '3PA', '3P%','FTA', 'FT%', 'ORB', 'DRB','STL', 'BLK', 'TOV']
+    columns = ['3PA', '3P%','FTA', 'FT%', 'ORB', 'DRB','STL', 'BLK', 'TOV']
     diff_dict = {}
     for col in columns:
         diff_dict[f'{col}_diff'] = [home_stats.iloc[0][col] - opp_stats.iloc[0][col]]
@@ -41,7 +41,7 @@ def train_model():
     games = pd.read_csv(r"C:\Users\aaron\OneDrive\NBAstats\2024-games.csv")
     games['Win_home'] = games['wl_home'].apply(lambda x: 1 if x == 'W' else 0)
     games['Win_away'] = 0
-    columns = ['fga', 'fg_pct', 'fg3a', 'fg3_pct','fta', 'ft_pct', 'oreb', 'dreb','stl', 'blk', 'tov','Win']
+    columns = ['fg3a', 'fg3_pct','fta', 'ft_pct', 'oreb', 'dreb','stl', 'blk', 'tov','Win']
     diff_dict = {f'{col}_diff': [] for col in columns}
     for index in games.index:
         for col in columns:
@@ -49,7 +49,7 @@ def train_model():
     diff = pd.DataFrame(diff_dict)
     diff.dropna(inplace=True)
 
-    feature_cols = ['fga_diff', 'fg_pct_diff', 'fg3a_diff', 'fg3_pct_diff', 'fta_diff',
+    feature_cols = [ 'fg3a_diff', 'fg3_pct_diff', 'fta_diff',
        'ft_pct_diff', 'oreb_diff', 'dreb_diff', 'stl_diff', 'blk_diff',
        'tov_diff']
     X = diff[feature_cols]
@@ -106,6 +106,6 @@ def main():
     
     # Predict win probability for the upcoming game (using current season stats)
     win_probability = predict_win_probability(model, diff)
-    print(f"Predicted win probability for the home team (LAL): {win_probability:.3f}")
+    print(f"Predicted win probability for the home team {home_team}: {win_probability:.3f}")
 
 main()
