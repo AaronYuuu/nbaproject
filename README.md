@@ -4,7 +4,10 @@ As I learned about data science and machine learning I wanted a project that wou
 ### Sample output predicting a matchup between the LA Lakers and Boston Celtics: 
 ![image](https://github.com/user-attachments/assets/e9626864-bbb9-49ba-aa22-1ba22ca97acc)
 
-
+## About the branches:
+- **nba.py**: my final model
+- **-.csv**: datasets used after filtering with excel
+- **gamePrediction.ipynb**: Jupyter notebook I used to test out code
   
 
 # How It’s Made
