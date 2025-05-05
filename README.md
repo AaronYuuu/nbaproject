@@ -10,20 +10,20 @@ As I learned about data science and machine learning I wanted a project that wou
 # How It’s Made
 
 **Tech used:** Python, Jupyter Notebook  
-### Jupyter notebook:
+** Jupyter notebook: **
 - Used for trouble-shooting and debugging
-### Python:
+** Python:**
 - Everything else
   
-- **Data ingestion & cleaning**  
+**Data ingestion & cleaning**  
   - Used **pandas** to load `teamPerGame.csv` (season averages) and `2024-games.csv` (historical game results).  
   - Wrote `get_stats()` to map full team names (with stray “*” characters) to NBA abbreviations via a dictionary lookup.  
 
-- **Feature engineering**  
+**Feature engineering**  
   - Implemented `compute_differential_features()` to calculate the difference in key metrics (FGA, FG%, 3PA, 3P%, FTA, FT%, ORB, DRB, STL, BLK, TOV) between home and away teams.  
   - Centralized column renaming in `rename_columns()` to keep feature names consistent (e.g. `FG%_diff` → `fg_pct_diff`).  
 
-- **Model training & evaluation**  
+**Model training & evaluation**  
   - Built `train_model()` which:  
     1. Reads historical game data, labels home wins vs. away wins.  
     2. Constructs a design matrix of differential features for each game.  
@@ -31,7 +31,7 @@ As I learned about data science and machine learning I wanted a project that wou
     4. Trains a `RandomForestClassifier(n_estimators=100, random_state=42)`.  
     5. Reports test-set accuracy using `sklearn.metrics`.  
 
-- **Prediction script**  
+**Prediction script**  
   - The `main()` function ties it all together:  
     - Loads current‐season stats.  
     - Computes the feature differential for a specific matchup (e.g. LAL vs. BOS).  
