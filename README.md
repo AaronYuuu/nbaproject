@@ -2,18 +2,19 @@
 ## NBA machine learning project
 As I learned about data science and machine learning I wanted a project that would let me practice and challenge my skills. For the project I found statistics on home and away teams for _almost_ everygame in the 2023-2024 season: (https://www.kaggle.com/datasets/wyattowalsh/basketball/data). I decided on using a randomforest classifier over a other models because it prevents overfitting and allows for accurate predictions and was also begineer friendly. 
 
-##How It's Made:
-Tech used: Python, Jupyter Notebook
-#Jupyter notebook:
-- Used for trouble-shooting and debugging
-#Python:
-- Everything else
+
+
 
   
 #Data ingestion & cleaning:
 ## How It’s Made
 
 **Tech used:** Python, Jupyter Notebook  
+# Jupyter notebook:
+- Used for trouble-shooting and debugging
+# Python:
+- Everything else
+  
 - **Data ingestion & cleaning**  
   - Used **pandas** to load `teamPerGame.csv` (season averages) and `2024-games.csv` (historical game results).  
   - Wrote `get_stats()` to map full team names (with stray “*” characters) to NBA abbreviations via a dictionary lookup.  
@@ -41,6 +42,7 @@ Feature engineering matters: isolating the right set of statistics and computing
 Data hygiene is critical: handling quirks in team naming (trailing “*” characters) and missing values taught me to build robust preprocessing steps first and to reduce the confusion of variable names.
 Model evaluation workflow: splitting data, training, predicting, and computing accuracy reinforced best practices in building ML pipelines end to end.
 Performance tuning: seeing how small refactors in pandas can yield big speedups inspired me to always profile data-processing code before scaling up
+Spending more time brainstorming before diving into a project can be very helpful and would have saved me a lot of time scrambling around looking for a dataset
 
 ##What I'm Still Working On
 Implemting seaborn and matplotlib to graph out heatmaps and highlight the correlation between specific varaibles allowing me to fine-tune features
