@@ -64,8 +64,6 @@ def train_model():
 
 def rename_columns(df):
     new_columns = {
-        'FGA_diff': 'fga_diff',
-        'FG%_diff': 'fg_pct_diff',
         '3PA_diff': 'fg3a_diff',
         '3P%_diff': 'fg3_pct_diff',
         'FTA_diff': 'fta_diff',
