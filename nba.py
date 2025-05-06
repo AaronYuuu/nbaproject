@@ -5,7 +5,7 @@ from sklearn import metrics
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# ----- Stats for individual team from season -----
+#stats for both teams during that season (season average)
 def get_stats(df, home, away):
     """
     look through csv file for team1 and team2
