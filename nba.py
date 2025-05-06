@@ -21,6 +21,8 @@ def get_stats(df, home, away):
     df["Team"] = df['Team'].map(dmap)
     return df[df['Team'] == home], df[df['Team'] == away]
 
+#graph data could honestly not be a function
+#TODO: take the correlation and use that to tune features, give more empahsis
 def visualize_data(df):
     plt.figure(figsize=(10,6))
     sns.heatmap(df.corr()["Win_diff"], cmap='coolwarm')
@@ -39,7 +41,8 @@ def compute_differential_features(home_stats, opp_stats):
     return diff
 
 
-
+#train model with past years data
+#TODO: hyperparameter tuning and possible other models (Linear or logistic regression, idk)
 def train_model():
     """
     Trains a RandomForestClassifier on the DataFrame.
@@ -78,7 +81,7 @@ def train_model():
     predictions = model.predict(X_test)
     accuracy = metrics.accuracy_score(y_test, predictions)
     print("Training Model Accuracy:", accuracy)
-    
+
     importances = model.feature_importances_
     importances_df = pd.DataFrame({'Feature': feature_cols, 'Importance': importances})
     plt.figure(figsize=(10, 6))
@@ -87,6 +90,7 @@ def train_model():
     plt.show()
     return model
 
+#didnt realize training and test dataset had different columns so had to rename them
 def rename_columns(df):
     new_columns = {
         '3PA_diff': 'fg3a_diff',
@@ -103,18 +107,13 @@ def rename_columns(df):
     return df
 
 
-def predict_win_probability(model, diff_pd):
-    proba = model.predict_proba(diff_pd)[0]  # returns array like [prob_loss, prob_win]
-    # Return probability that home team wins (class 1)
-    return proba[1]
-
 def main():
     df = pd.read_csv(r"C:/Users/aaron/OneDrive/NBAstats/teamPerGame.csv")
     cols = ['Rk', 'TRB', 'FG', '3P', 'FT', 'AST', 'PF', 'PTS', '2P', '2PA', '2P%']
     df.drop(cols, axis = 1, inplace=True)
     home_team = 'LAL'
     away_team = 'BOS'
-    
+    visualize_data(df)
     # Get stats for the two teams
     home,away = get_stats(df, home_team, away_team)
     
@@ -128,7 +127,7 @@ def main():
     model = train_model()
     
     # Predict win probability for the upcoming game (using current season stats)
-    win_probability = predict_win_probability(model, diff)
-    print(f"Predicted win probability for the home team {home_team}: {win_probability:.3f}")
+    proba = model.predict_proba(diff)[0][1]
+    print(f"Predicted win probability for the home team {home_team}: {proba:.3f}") 
 
 main()
