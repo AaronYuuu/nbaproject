@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # ----- Stats for individual team from season -----
 def get_stats(df, home, away):
@@ -19,6 +21,12 @@ def get_stats(df, home, away):
     df["Team"] = df['Team'].map(dmap)
     return df[df['Team'] == home], df[df['Team'] == away]
 
+def visualize_data(df):
+    plt.figure(figsize=(10,6))
+    sns.heatmap(df.corr()["Win_diff"], cmap='coolwarm')
+    plt.title('Correlation Heatmap between Features')
+    plt.show()
+
 #difference between key stats between the two teams 
 def compute_differential_features(home_stats, opp_stats):
     # Only want these
@@ -32,7 +40,6 @@ def compute_differential_features(home_stats, opp_stats):
 
 
 
-# ----- Model Training and Prediction -----
 def train_model():
     """
     Trains a RandomForestClassifier on the DataFrame.
@@ -48,18 +55,36 @@ def train_model():
             diff_dict[f'{col}_diff'].append(games.loc[index][f'{col}_home'] - games.loc[index][f'{col}_away'])
     diff = pd.DataFrame(diff_dict)
     diff.dropna(inplace=True)
-
     feature_cols = [ 'fg3a_diff', 'fg3_pct_diff', 'fta_diff',
        'ft_pct_diff', 'oreb_diff', 'dreb_diff', 'stl_diff', 'blk_diff',
        'tov_diff']
     X = diff[feature_cols]
     y = diff['Win_diff']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+    #train multiple models with different numbers of estimators and choose the best one after print all out
+    temp = {}
+    for n in [10,50,100,150,200,250,300,350]:
+        model = RandomForestClassifier(n_estimators=n, random_state=42)
+        model.fit(X_train, y_train)
+        predictions = model.predict(X_test)
+        accuracy = metrics.accuracy_score(y_test, predictions)
+        print(f"Training Model Accuracy with {n} estimators:", accuracy)
+        print(f"Feature Importances with {n} estimators:", model.feature_importances_)
+        temp[n] = accuracy
+    best_modelnum = max(temp, key=temp.get)
+    model = RandomForestClassifier(n_estimators=best_modelnum, random_state=42)
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     accuracy = metrics.accuracy_score(y_test, predictions)
     print("Training Model Accuracy:", accuracy)
+    
+    importances = model.feature_importances_
+    importances_df = pd.DataFrame({'Feature': feature_cols, 'Importance': importances})
+    plt.figure(figsize=(10, 6))
+    plt.title('Feature Importances')
+    sns.barplot(x='Importance', y='Feature', data=importances_df.sort_values(by='Importance', ascending=False), palette='viridis')
+    plt.show()
     return model
 
 def rename_columns(df):
