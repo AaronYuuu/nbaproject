@@ -45,8 +45,7 @@ def compute_differential_features(home_stats, opp_stats):
 #TODO: hyperparameter tuning and possible other models (Linear or logistic regression, idk)
 def train_model():
     """
-    Trains a RandomForestClassifier on the DataFrame.
-    Returns the trained classifier.
+    train a randomforest and return it after testing with different numbers of estimators
     """
     games = pd.read_csv(r"C:\Users\aaron\OneDrive\NBAstats\2024-games.csv")
     games['Win_home'] = games['wl_home'].apply(lambda x: 1 if x == 'W' else 0)
