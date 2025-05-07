@@ -45,7 +45,8 @@ def compute_differential_features(home_stats, opp_stats):
 #TODO: hyperparameter tuning and possible other models (Linear or logistic regression, idk)
 def train_model():
     """
-    train a randomforest and return it after testing with different numbers of estimators
+    Trains a RandomForestClassifier on the DataFrame.
+    Returns the trained classifier.
     """
     games = pd.read_csv(r"C:\Users\aaron\OneDrive\NBAstats\2024-games.csv")
     games['Win_home'] = games['wl_home'].apply(lambda x: 1 if x == 'W' else 0)
@@ -66,6 +67,8 @@ def train_model():
 
     #train multiple models with different numbers of estimators and choose the best one after print all out
     temp = {}
+    finalModel = None
+    prevAccuracy = 0
     for n in [10,50,100,150,200,250,300,350]:
         model = RandomForestClassifier(n_estimators=n, random_state=42)
         model.fit(X_train, y_train)
@@ -73,21 +76,21 @@ def train_model():
         accuracy = metrics.accuracy_score(y_test, predictions)
         print(f"Training Model Accuracy with {n} estimators:", accuracy)
         print(f"Feature Importances with {n} estimators:", model.feature_importances_)
-        temp[n] = accuracy
-    best_modelnum = max(temp, key=temp.get)
-    model = RandomForestClassifier(n_estimators=best_modelnum, random_state=42)
-    model.fit(X_train, y_train)
-    predictions = model.predict(X_test)
-    accuracy = metrics.accuracy_score(y_test, predictions)
-    print("Training Model Accuracy:", accuracy)
+        if accuracy > prevAccuracy:
+            prevAccuracy = accuracy
+            finalModel = model
+    print("Training Model Accuracy:", prevAccuracy)
 
+    graphImportances(finalModel, feature_cols)
+    return finalModel
+
+def graphImportances(model, feature_cols):
     importances = model.feature_importances_
     importances_df = pd.DataFrame({'Feature': feature_cols, 'Importance': importances})
     plt.figure(figsize=(10, 6))
     plt.title('Feature Importances')
     sns.barplot(x='Importance', y='Feature', data=importances_df.sort_values(by='Importance', ascending=False), palette='viridis')
     plt.show()
-    return model
 
 #didnt realize training and test dataset had different columns so had to rename them
 def rename_columns(df):
