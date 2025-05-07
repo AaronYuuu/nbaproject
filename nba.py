@@ -131,5 +131,3 @@ def main():
     # Predict win probability for the upcoming game (using current season stats)
     proba = model.predict_proba(diff)[0][1]
     print(f"Predicted win probability for the home team {home_team}: {proba:.3f}") 
-
-main()
